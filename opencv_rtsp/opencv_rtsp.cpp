@@ -15,7 +15,8 @@
 #include <Windows.h>
 
 #include "opencv2/core.hpp"
-#include "opencv2/cudacodec.hpp"
+#include "opencv2/core/cuda.hpp"
+#include <opencv2/core/cuda/warp.hpp>
 
 #include <opencv2/dnn.hpp>
 #include <opencv2/dnn/all_layers.hpp>
@@ -23,8 +24,8 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 
-#include <opencv2/cudaimgproc.hpp>
-#include <opencv2/cudawarping.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+
 
 
 using namespace std;
@@ -34,7 +35,6 @@ constexpr float CONFIDENCE_THRESHOLD = 0;
 constexpr float NMS_THRESHOLD = 0.4;
 constexpr int NUM_CLASSES = 5;
 
-#define model_path = "../Runtime/config/model.onnx"
 // colors for bounding boxes
 const cv::Scalar colors[] = {
     { 0, 255, 255 },
@@ -81,11 +81,11 @@ void gpuVideoThread(int threadNum, int channel4gpu, string videoPath, int bimsho
 
     // Yolo
     //auto net = cv::dnn::readNetFromDarknet("D:/test/352.cfg", "D:/test/352.weights");
-    
+
     //yolov5
-    auto net = cv2.dnn.readNetFromONNX(model_path);
+    auto net = cv::dnn::readNetFromONNX("../../Runtime/config/smart_vehicle_640_640.onnx");
     std::vector<std::string> class_names;
-    class_names.push_back("person"); class_names.push_back("car"); class_names.push_back("truck"); class_names.push_back("motoby"); class_names.push_back("bus");
+    class_names.push_back("Car"); class_names.push_back("MotorCycle"); class_names.push_back("Bicycle"); class_names.push_back("Person"); class_names.push_back("PM");
     net.setPreferableBackend(cv::dnn::DNN_BACKEND_CUDA);
     net.setPreferableTarget(cv::dnn::DNN_TARGET_CUDA_FP16);
     auto output_names = net.getUnconnectedOutLayersNames();
@@ -188,8 +188,8 @@ void gpuVideoThread(int threadNum, int channel4gpu, string videoPath, int bimsho
 
 int main(int argc, char** argv)
 {
-    //string videoPath = "rtsp://admin:admin13579@192.168.0.94/profile2/media.smp";
-    string videoPath = "../Runtime/Data/test.mp4";
+    string videoPath = "rtsp://210.99.70.120:1935/live/cctv001.stream";
+    //string videoPath = "../Runtime/Data/test.mp4";
 
 
     // 총 쓰레드 수
