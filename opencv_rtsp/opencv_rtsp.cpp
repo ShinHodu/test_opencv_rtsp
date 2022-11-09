@@ -15,8 +15,7 @@
 #include <Windows.h>
 
 #include "opencv2/core.hpp"
-#include "opencv2/core/cuda.hpp"
-#include <opencv2/core/cuda/warp.hpp>
+#include "opencv2/cudacodec.hpp"
 
 #include <opencv2/dnn.hpp>
 #include <opencv2/dnn/all_layers.hpp>
@@ -24,8 +23,8 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 
-#include <opencv2/imgproc/imgproc.hpp>
-
+#include <opencv2/cudaimgproc.hpp>
+#include <opencv2/cudawarping.hpp>
 
 
 using namespace std;
@@ -100,7 +99,7 @@ void gpuVideoThread(int threadNum, int channel4gpu, string videoPath, int bimsho
         frameCnt++;
 
         // gpu mat 상태로 연산
-        int imageSize = 352;
+        int imageSize = 640;
         cv::cuda::cvtColor(gImg, gImg, COLOR_RGBA2RGB);
         cv::cuda::resize(gImg, gImg, Size(imageSize, imageSize));
 
