@@ -6,29 +6,31 @@
 #include <iomanip>
 #include <chrono>
 
-#include "opencv2/opencv_modules.hpp"
-
 #include <stdio.h>
 #include <vector>
 #include <numeric>
 #include <time.h>
 #include <Windows.h>
+using namespace std;
+
+#include "opencv2/opencv_modules.hpp"
+
 
 #include "opencv2/core.hpp"
-#include "opencv2/cudacodec.hpp"
+#include "opencv2/core/cuda.hpp"
 
 #include <opencv2/dnn.hpp>
 #include <opencv2/dnn/all_layers.hpp>
 
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
+using namespace cv;
 
+#include "opencv2/cudacodec.hpp"
 #include <opencv2/cudaimgproc.hpp>
 #include <opencv2/cudawarping.hpp>
+using namespace cv::cuda;
 
-
-using namespace std;
-using namespace cv;
 
 constexpr float CONFIDENCE_THRESHOLD = 0;
 constexpr float NMS_THRESHOLD = 0.4;
